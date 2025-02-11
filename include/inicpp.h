@@ -740,6 +740,7 @@ namespace ini
         void encode(std::ostream &os) const
         {
             // iterate through all sections in this file
+            int sectionsCount = 0;
             for(const auto &filePair : *this)
             {
                 os.put('[');
@@ -755,6 +756,10 @@ namespace ini
                     writeEscaped(os, secPair.second.template as<std::string>());
                     os.put('\n');
                 }
+
+                // separate sections by empty line
+                if(++sectionsCount < this->size())
+                    os.put('\n');
             }
         }
 
